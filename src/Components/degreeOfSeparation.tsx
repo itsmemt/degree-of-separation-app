@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 interface Person {
   name: string;
@@ -11,14 +11,7 @@ const DegreeOfSeparation: React.FC = () => {
   const [degreeOfSeparation, setDegreeOfSeparation] = useState<string[]>([]);
   const [showResult, setShowResult] = useState<boolean>(false);
 
- 
-
-  const findDegreesOfSeparation = (
-    person1Data: Person,
-    person2Data: Person,
-    data: Person[],
-    degrees: string[]
-  ): string[] => {
+  const findDegreesOfSeparation = useCallback((person1Data: Person, person2Data: Person, data: Person[], degrees: string[]): string[] => {
     if (person1Data.friends.includes(person2Data.name)) {
       degrees.push(person2Data.name);
       return degrees;
@@ -39,7 +32,8 @@ const DegreeOfSeparation: React.FC = () => {
       }
       return [];
     }
-  };
+  }, []);
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("people") || "[]");
     const person1Data = data.find((person: Person) => person.name === person1);
@@ -53,7 +47,8 @@ const DegreeOfSeparation: React.FC = () => {
       );
       setDegreeOfSeparation(degrees || []);
     }
-  },  [person1, person2,findDegreesOfSeparation]);
+  }, [person1, person2, findDegreesOfSeparation]);
+
   const handleShowResult = () => {
     if (!showResult) {
       setShowResult(!showResult);
