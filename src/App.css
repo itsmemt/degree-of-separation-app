@@ -6,3 +6,7 @@
   height: 100%;
   background-color: slateblue;
 }
+button{
+  font-weight: 650 !important;
+  color: white !important;
+}
