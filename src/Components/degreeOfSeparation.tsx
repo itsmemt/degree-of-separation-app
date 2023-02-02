@@ -11,20 +11,7 @@ const DegreeOfSeparation: React.FC = () => {
   const [degreeOfSeparation, setDegreeOfSeparation] = useState<string[]>([]);
   const [showResult, setShowResult] = useState<boolean>(false);
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("people") || "[]");
-    const person1Data = data.find((person: Person) => person.name === person1);
-    const person2Data = data.find((person: Person) => person.name === person2);
-    if (person1Data && person2Data) {
-      const degrees = findDegreesOfSeparation(
-        person1Data,
-        person2Data,
-        data,
-        []
-      );
-      setDegreeOfSeparation(degrees || []);
-    }
-  }, [person1, person2]);
+ 
 
   const findDegreesOfSeparation = (
     person1Data: Person,
@@ -53,6 +40,20 @@ const DegreeOfSeparation: React.FC = () => {
       return [];
     }
   };
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("people") || "[]");
+    const person1Data = data.find((person: Person) => person.name === person1);
+    const person2Data = data.find((person: Person) => person.name === person2);
+    if (person1Data && person2Data) {
+      const degrees = findDegreesOfSeparation(
+        person1Data,
+        person2Data,
+        data,
+        []
+      );
+      setDegreeOfSeparation(degrees || []);
+    }
+  },  [person1, person2,findDegreesOfSeparation]);
   const handleShowResult = () => {
     if (!showResult) {
       setShowResult(!showResult);
